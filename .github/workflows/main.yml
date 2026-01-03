@@ -1,0 +1,36 @@
+name: Build CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: buildjet-64vcpu-ubuntu-2204
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Free Disk Space
+      uses: coder-xiaomo/free-disk-space@main
+      with:
+        tool-cache: true
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y repo python3 git gh
+
+    - name: Setup Github Information 
+      run: |
+         git config --global user.name "y82t2z"
+         git config --global user.email "nyakoriandnyarutoru@gmail.com"
+    
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
